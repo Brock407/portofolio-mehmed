@@ -22,15 +22,12 @@
       'hero.ctaSkills': 'Lihat keahlian',
       'hero.ctaContact': 'Hubungi saya',
       'stack.label': 'Lapisan data',
-      'stack.hint': 'Klik kartu untuk membawanya ke depan.',
-      'stack.l1.name': 'Database',
-      'stack.l1.text': 'PostgreSQL dan SQL untuk query relasional lintas tabel.',
-      'stack.l2.name': 'Transformasi',
-      'stack.l2.text': 'Power Query dan Pandas untuk pembersihan dan transformasi data.',
-      'stack.l3.name': 'Analisis',
-      'stack.l3.text': 'Power Pivot dan window function untuk agregasi dan perbandingan periode.',
-      'stack.l4.name': 'Insight',
-      'stack.l4.text': 'Dashboard dan ringkasan temuan untuk pengambilan keputusan.',
+      'layer.database': 'Database',
+      'layer.transform': 'Transformasi',
+      'layer.analysis': 'Analisis',
+      'layer.insight': 'Insight',
+      'layer.api': 'API',
+      'layer.interface': 'Interface',
       'about.title': 'Tentang',
       'about.text': 'Saya Brockly, Data Analyst yang fokus pada otomasi alur data: dari query database, transformasi di Excel dan Python, sampai ringkasan temuan. Pengalaman operasional 4 tahun di WWRC mencakup otomasi data Excel.',
       'skills.title': 'Keahlian',
@@ -44,8 +41,11 @@
       'skills.s4.text': 'Pipeline data on-chain dan riset protokol berbasis TVL.',
       'skills.tools.title': 'Tools',
       'skills.tools.text': 'VS Code Cline · OpenRouter · Cherry Studio',
+      'projects.label': 'Proyek pilihan',
       'projects.title': 'Proyek',
-      'projects.open': 'Lihat proyek',
+      'projects.filterLabel': 'Filter kategori',
+      'projects.navLabel': 'Navigasi proyek',
+      'projects.goto': 'Buka proyek',
       'filter.all': 'Semua',
       'filter.data-analysis': 'Analisis Data',
       'filter.automation': 'Otomasi',
@@ -71,15 +71,12 @@
       'hero.ctaSkills': 'View skills',
       'hero.ctaContact': 'Get in touch',
       'stack.label': 'Data layers',
-      'stack.hint': 'Click a card to bring it to the front.',
-      'stack.l1.name': 'Database',
-      'stack.l1.text': 'PostgreSQL and SQL for relational queries across tables.',
-      'stack.l2.name': 'Transform',
-      'stack.l2.text': 'Power Query and Pandas for data cleaning and transformation.',
-      'stack.l3.name': 'Analysis',
-      'stack.l3.text': 'Power Pivot and window functions for aggregation and period comparison.',
-      'stack.l4.name': 'Insight',
-      'stack.l4.text': 'Dashboards and summarized findings for decision-making.',
+      'layer.database': 'Database',
+      'layer.transform': 'Transform',
+      'layer.analysis': 'Analysis',
+      'layer.insight': 'Insight',
+      'layer.api': 'API',
+      'layer.interface': 'Interface',
       'about.title': 'About',
       'about.text': "I'm Brockly, a Data Analyst focused on automating data workflows: from database queries and Excel and Python transformations to summarized findings. Four years of operational experience at WWRC covers Excel data automation.",
       'skills.title': 'Skills',
@@ -93,8 +90,11 @@
       'skills.s4.text': 'On-chain data pipelines and TVL-based protocol research.',
       'skills.tools.title': 'Tools',
       'skills.tools.text': 'VS Code Cline · OpenRouter · Cherry Studio',
+      'projects.label': 'Selected projects',
       'projects.title': 'Projects',
-      'projects.open': 'View project',
+      'projects.filterLabel': 'Category filter',
+      'projects.navLabel': 'Project navigation',
+      'projects.goto': 'Go to project',
       'filter.all': 'All',
       'filter.data-analysis': 'Data Analysis',
       'filter.automation': 'Automation',
@@ -107,34 +107,107 @@
   };
 
   /* ==========================================================
-     DATA PROYEK — kosong untuk sementara (fokus web dulu).
-     Isi array ini saat proyek siap; bagian Proyek otomatis tampil,
-     dan kategori filter hanya muncul jika ada proyek di dalamnya.
-     Contoh bentuk data:
-     {
-       id: 'sql-retail',
-       category: 'data-analysis',          // data-analysis | automation | pipeline
-       title: { id: 'Analisis Penjualan', en: 'Sales Analysis' },
-       desc:  { id: '...', en: '...' },
-       url: 'https://github.com/...'
-     }
+     DATA PROYEK — 3 proyek nyata.
+     layers: urutan dari BAWAH ke ATAS (sesuai alur pipeline).
+     Lapisan terakhir (paling atas) otomatis berwarna aksen.
+     sub: string (istilah teknis) atau { id, en } bila perlu diterjemahkan.
      ========================================================== */
-  const projects = [];
+  const projects = [
+    {
+      id: 'crypto-terminal',
+      category: 'pipeline',
+      title: {
+        id: 'Automated Crypto Data Terminal & Alert Pipeline',
+        en: 'Automated Crypto Data Terminal & Alert Pipeline'
+      },
+      desc: {
+        id: 'Terminal data kripto yang mengambil data dari CoinGecko dan DeFiLlama, mengolahnya dengan Python Pandas dan Power Query, lalu mengirim alert ke Discord Webhook.',
+        en: 'A crypto data terminal that pulls data from CoinGecko and DeFiLlama, processes it with Python Pandas and Power Query, and sends alerts to a Discord Webhook.'
+      },
+      layers: [
+        { key: 'layer.api', sub: 'CoinGecko & DeFiLlama' },
+        { key: 'layer.transform', sub: 'Python Pandas & Power Query' },
+        { key: 'layer.insight', sub: 'Discord Webhook' }
+      ]
+    },
+    {
+      id: 'financial-tracker',
+      category: 'automation',
+      title: {
+        id: 'Operational Financial Tracker',
+        en: 'Operational Financial Tracker'
+      },
+      desc: {
+        id: 'Pelacak keuangan operasional: data penjualan mentah dibersihkan dengan Power Query, lalu ditampilkan di dashboard Excel dengan Power Pivot.',
+        en: 'An operational financial tracker: raw sales data is cleaned with Power Query, then shown in an Excel dashboard built with Power Pivot.'
+      },
+      layers: [
+        { key: 'layer.database', sub: { id: 'Data Penjualan Mentah', en: 'Raw Sales Data' } },
+        { key: 'layer.transform', sub: { id: 'Pembersihan Power Query', en: 'Power Query Cleaning' } },
+        { key: 'layer.interface', sub: { id: 'Dashboard Excel Power Pivot', en: 'Excel Power Pivot Dashboard' } }
+      ]
+    },
+    {
+      id: 'sql-pipeline',
+      category: 'data-analysis',
+      title: {
+        id: 'SQL Transaction Data Pipeline',
+        en: 'SQL Transaction Data Pipeline'
+      },
+      desc: {
+        id: 'Pipeline data transaksi di PostgreSQL. Transformasi memakai CTE dan JOIN kompleks, lalu metrik dihitung dengan window functions.',
+        en: 'A transaction data pipeline in PostgreSQL. Transformations use CTEs and complex JOINs, and metrics are calculated with window functions.'
+      },
+      layers: [
+        { key: 'layer.database', sub: 'PostgreSQL · DBeaver' },
+        { key: 'layer.transform', sub: 'Complex CTEs & JOINs' },
+        { key: 'layer.interface', sub: 'Window Functions & Metrics' }
+      ]
+    }
+  ];
+
+  /* Lapisan hero: bawah ke atas. */
+  const HERO_LAYERS = [
+    { key: 'layer.database', sub: 'PostgreSQL · SQL' },
+    { key: 'layer.transform', sub: 'Power Query · Pandas' },
+    { key: 'layer.analysis', sub: 'Power Pivot · Window Functions' },
+    { key: 'layer.insight', sub: 'Dashboard' }
+  ];
 
   const CATEGORY_ORDER = ['data-analysis', 'automation', 'pipeline'];
 
   const state = {
     lang: 'id',
     filter: 'all',
-    stackOrder: [0, 1, 2, 3]   // urutan tumpukan: indeks pertama = paling depan
+    visible: [],   // proyek yang tampil setelah filter
+    active: 0      // indeks slide aktif
   };
 
+  let isStatic = false;
+  const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const staticMQ = window.matchMedia('(max-width: 860px), (prefers-reduced-motion: reduce)');
+
+  /* ---------- UTILITAS ---------- */
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+  const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+  const pad = n => String(n).padStart(2, '0');
+
+  function el(tag, cls, text) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
 
   function t(key) {
     const dict = translations[state.lang] || translations.id;
     return dict[key] !== undefined ? dict[key] : (translations.id[key] || key);
+  }
+
+  function pick(value) {
+    if (typeof value === 'string') return value;
+    return value[state.lang] || value.id;
   }
 
   /* ---------- TEMA ---------- */
@@ -160,11 +233,11 @@
     state.lang = translations[lang] ? lang : 'id';
     document.documentElement.lang = state.lang;
 
-    $$('[data-i18n]').forEach(el => {
-      el.textContent = t(el.dataset.i18n);
+    $$('[data-i18n]').forEach(node => {
+      node.textContent = t(node.dataset.i18n);
     });
-    $$('[data-i18n-aria]').forEach(el => {
-      el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    $$('[data-i18n-aria]').forEach(node => {
+      node.setAttribute('aria-label', t(node.dataset.i18nAria));
     });
 
     document.title = t('meta.title');
@@ -176,63 +249,53 @@
     langBtn.setAttribute('aria-label', t('ui.langLabel'));
 
     updateThemeButton();
-    renderProjectsSection();
+    renderProjects();
 
     try { localStorage.setItem('lang', state.lang); } catch (e) { /* abaikan */ }
   }
 
-  /* ---------- STACK LAYER: click-to-front ----------
-     Setiap kartu menerima --depth = posisinya dalam stackOrder.
-     CSS menghitung offset, skala, dan z-index dari --depth.
-     ----------------------------------------------------- */
-  function renderStack() {
-    $$('.stack-card').forEach(card => {
-      const index = Number(card.dataset.index);
-      const depth = state.stackOrder.indexOf(index);
-      const isFront = depth === 0;
+  /* ---------- ISOMETRIC STACK ----------
+     Membangun lapisan dari daftar (bawah ke atas).
+     --i menentukan posisi Z lapisan; CSS mengurus sisanya. */
+  function buildIso(layers, enter) {
+    const iso = el('div', 'iso');
+    layers.forEach((layer, i) => {
+      const isTop = i === layers.length - 1;
+      const slab = el('div', 'slab' + (isTop ? ' is-top' : '') + (enter ? ' is-enter' : ''));
+      slab.style.setProperty('--i', i);
 
-      card.style.setProperty('--depth', depth);
-      card.classList.toggle('is-front', isFront);
-      if (isFront) {
-        card.setAttribute('aria-current', 'true');
-      } else {
-        card.removeAttribute('aria-current');
-      }
+      const name = el('span', 'slab-name', t(layer.key));
+      name.dataset.i18n = layer.key;
+
+      slab.append(name, el('span', 'slab-sub', pick(layer.sub)));
+      iso.appendChild(slab);
     });
+    return iso;
   }
 
-  function bringToFront(index) {
-    const pos = state.stackOrder.indexOf(index);
-    if (pos === 0) {
-      // Klik kartu depan: kirim ke belakang, kartu berikutnya maju
-      state.stackOrder.push(state.stackOrder.shift());
-    } else {
-      // Klik kartu belakang: naikkan ke depan, urutan lain tetap
-      state.stackOrder.splice(pos, 1);
-      state.stackOrder.unshift(index);
+  function renderHero() {
+    const host = $('#hero-stack');
+    const enter = !reduceMQ.matches;
+    host.innerHTML = '';
+    host.appendChild(buildIso(HERO_LAYERS, enter));
+
+    if (enter) {
+      // Dua frame agar transisi dari keadaan awal berjalan
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        $$('#hero-stack .slab.is-enter').forEach(s => s.classList.remove('is-enter'));
+      }));
     }
-    renderStack();
   }
 
-  function initStack() {
-    $$('.stack-card').forEach(card => {
-      card.addEventListener('click', () => {
-        bringToFront(Number(card.dataset.index));
-      });
-    });
-    renderStack();
-  }
-
-  /* ---------- PROYEK & FILTER ---------- */
-  function renderProjectsSection() {
+  /* ---------- PROYEK, FILTER, DAN SLIDE ---------- */
+  function renderProjects() {
     const section = $('#projects');
-    const filters = $('#project-filters');
-    const grid = $('#project-grid');
+    const filtersEl = $('#project-filters');
+    const slidesEl = $('#stack-slides');
+    const dotsEl = $('#stack-dots');
 
     if (!projects.length) {
       section.hidden = true;
-      filters.innerHTML = '';
-      grid.innerHTML = '';
       return;
     }
     section.hidden = false;
@@ -242,46 +305,118 @@
       state.filter = 'all';
     }
 
-    filters.innerHTML = '';
+    filtersEl.innerHTML = '';
     ['all', ...presentCats].forEach(cat => {
-      const btn = document.createElement('button');
+      const btn = el('button', 'chip', t('filter.' + cat));
       btn.type = 'button';
-      btn.className = 'chip';
-      btn.textContent = t('filter.' + cat);
       btn.setAttribute('aria-pressed', String(state.filter === cat));
       btn.addEventListener('click', () => {
         state.filter = cat;
-        renderProjectsSection();
+        state.active = 0;
+        renderProjects();
+        $('#stack-scroll').scrollIntoView({
+          behavior: reduceMQ.matches ? 'auto' : 'smooth',
+          block: 'start'
+        });
       });
-      filters.appendChild(btn);
+      filtersEl.appendChild(btn);
     });
 
-    grid.innerHTML = '';
-    projects
-      .filter(p => state.filter === 'all' || p.category === state.filter)
-      .forEach(p => {
-        const card = document.createElement('article');
-        card.className = 'card';
+    state.visible = projects.filter(p => state.filter === 'all' || p.category === state.filter);
+    const n = state.visible.length;
+    state.active = clamp(state.active, 0, Math.max(0, n - 1));
 
-        const h = document.createElement('h3');
-        h.textContent = p.title[state.lang] || p.title.id;
+    slidesEl.innerHTML = '';
+    dotsEl.innerHTML = '';
 
-        const d = document.createElement('p');
-        d.className = 'muted';
-        d.textContent = p.desc[state.lang] || p.desc.id;
+    state.visible.forEach((p, i) => {
+      const slide = el('article', 'stack-slide');
+      slide.id = 'project-' + i;
 
-        card.append(h, d);
+      const copy = el('div', 'slide-copy');
+      copy.append(
+        el('p', 'slide-index', `${pad(i + 1)} / ${pad(n)} · ${t('filter.' + p.category)}`),
+        el('h3', 'slide-title', pick(p.title)),
+        el('p', 'slide-desc', pick(p.desc))
+      );
 
-        if (p.url) {
-          const a = document.createElement('a');
-          a.href = p.url;
-          a.target = '_blank';
-          a.rel = 'noopener noreferrer';
-          a.textContent = t('projects.open');
-          card.appendChild(a);
-        }
-        grid.appendChild(card);
-      });
+      const visual = el('div', 'slide-visual');
+      const wrap = el('div', 'iso-wrap');
+      wrap.appendChild(buildIso(p.layers, false));
+      visual.appendChild(wrap);
+
+      slide.append(copy, visual);
+      slidesEl.appendChild(slide);
+
+      const dot = el('button', 'stack-dot', pad(i + 1));
+      dot.type = 'button';
+      dot.setAttribute('aria-label', `${t('projects.goto')}: ${pick(p.title)}`);
+      dot.addEventListener('click', () => goToSlide(i));
+      dotsEl.appendChild(dot);
+    });
+
+    $('#stack-scroll').style.setProperty('--count', n);
+    setActive(state.active);
+    if (!isStatic) updateStack();
+  }
+
+  function setActive(index) {
+    const n = state.visible.length;
+    if (!n) return;
+    const idx = clamp(index, 0, n - 1);
+    state.active = idx;
+
+    $$('#stack-slides .stack-slide').forEach((slide, k) => {
+      slide.classList.toggle('is-active', k === idx);
+    });
+    $$('#stack-dots .stack-dot').forEach((dot, k) => {
+      if (k === idx) dot.setAttribute('aria-current', 'true');
+      else dot.removeAttribute('aria-current');
+    });
+  }
+
+  /* Tinggi area sticky = viewport dikurangi header */
+  function stickyHeight() {
+    return window.innerHeight - $('.site').offsetHeight;
+  }
+
+  function sectionTop() {
+    return $('#stack-scroll').getBoundingClientRect().top + window.scrollY;
+  }
+
+  /* Progres scroll (0–1) dipetakan ke indeks slide.
+     Rentang scroll efektif = (jumlah proyek − 1) × tinggi sticky. */
+  function updateStack() {
+    if (isStatic || !state.visible.length) return;
+
+    const count = state.visible.length;
+    const range = (count - 1) * stickyHeight();
+    const progress = range > 0
+      ? clamp((window.scrollY - sectionTop()) / range, 0, 1)
+      : 0;
+
+    setActive(Math.round(progress * (count - 1)));
+  }
+
+  function goToSlide(index) {
+    const behavior = reduceMQ.matches ? 'auto' : 'smooth';
+
+    if (isStatic) {
+      const target = document.getElementById('project-' + index);
+      if (target) target.scrollIntoView({ behavior, block: 'start' });
+      return;
+    }
+
+    window.scrollTo({
+      top: sectionTop() + index * stickyHeight(),
+      behavior
+    });
+  }
+
+  function applyMode() {
+    isStatic = staticMQ.matches;
+    $('#projects').classList.toggle('is-static', isStatic);
+    if (!isStatic) updateStack();
   }
 
   /* ---------- INISIALISASI ---------- */
@@ -296,7 +431,27 @@
       applyLang(state.lang === 'id' ? 'en' : 'id');
     });
 
-    initStack();
+    // Scroll: satu pembaruan per frame
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        updateStack();
+        ticking = false;
+      });
+    }, { passive: true });
+    window.addEventListener('resize', updateStack);
+
+    if (staticMQ.addEventListener) {
+      staticMQ.addEventListener('change', applyMode);
+    } else {
+      staticMQ.addListener(applyMode);
+    }
+
+    applyMode();
+    state.lang = translations[savedLang] ? savedLang : 'id';
+    renderHero();
     applyLang(savedLang);
   }
 
