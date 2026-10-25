@@ -22,7 +22,7 @@
       'hero.ctaSkills': 'Lihat keahlian',
       'hero.ctaContact': 'Hubungi saya',
       'stack.label': 'Lapisan data',
-      'stack.hint': 'Klik atau tekan Enter pada lapisan untuk melihat bukti.',
+      'stack.hint': 'Klik kartu untuk membawanya ke depan.',
       'stack.l1.name': 'Database',
       'stack.l1.text': 'PostgreSQL dan SQL untuk query relasional lintas tabel.',
       'stack.l2.name': 'Transformasi',
@@ -71,7 +71,7 @@
       'hero.ctaSkills': 'View skills',
       'hero.ctaContact': 'Get in touch',
       'stack.label': 'Data layers',
-      'stack.hint': 'Click or press Enter on a layer to see the evidence.',
+      'stack.hint': 'Click a card to bring it to the front.',
       'stack.l1.name': 'Database',
       'stack.l1.text': 'PostgreSQL and SQL for relational queries across tables.',
       'stack.l2.name': 'Transform',
@@ -125,7 +125,8 @@
 
   const state = {
     lang: 'id',
-    filter: 'all'
+    filter: 'all',
+    stackOrder: [0, 1, 2, 3]   // urutan tumpukan: indeks pertama = paling depan
   };
 
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -180,14 +181,46 @@
     try { localStorage.setItem('lang', state.lang); } catch (e) { /* abaikan */ }
   }
 
-  /* ---------- STACK LAYER ---------- */
+  /* ---------- STACK LAYER: click-to-front ----------
+     Setiap kartu menerima --depth = posisinya dalam stackOrder.
+     CSS menghitung offset, skala, dan z-index dari --depth.
+     ----------------------------------------------------- */
+  function renderStack() {
+    $$('.stack-card').forEach(card => {
+      const index = Number(card.dataset.index);
+      const depth = state.stackOrder.indexOf(index);
+      const isFront = depth === 0;
+
+      card.style.setProperty('--depth', depth);
+      card.classList.toggle('is-front', isFront);
+      if (isFront) {
+        card.setAttribute('aria-current', 'true');
+      } else {
+        card.removeAttribute('aria-current');
+      }
+    });
+  }
+
+  function bringToFront(index) {
+    const pos = state.stackOrder.indexOf(index);
+    if (pos === 0) {
+      // Klik kartu depan: kirim ke belakang, kartu berikutnya maju
+      state.stackOrder.push(state.stackOrder.shift());
+    } else {
+      // Klik kartu belakang: naikkan ke depan, urutan lain tetap
+      state.stackOrder.splice(pos, 1);
+      state.stackOrder.unshift(index);
+    }
+    renderStack();
+  }
+
   function initStack() {
-    $$('.layer').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const open = btn.classList.toggle('is-open');
-        btn.setAttribute('aria-expanded', String(open));
+    $$('.stack-card').forEach(card => {
+      card.addEventListener('click', () => {
+        bringToFront(Number(card.dataset.index));
       });
     });
+    renderStack();
   }
 
   /* ---------- PROYEK & FILTER ---------- */
