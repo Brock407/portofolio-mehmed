@@ -49,33 +49,8 @@
           <a class="btn" href="#contact" data-i18n="hero.ctaContact">Hubungi saya</a>
         </div>
       </div>
-
-      <div class="stack-wrap">
-        <!-- --depth 0 = paling depan. Nilai awal di inline agar tetap benar tanpa JavaScript. -->
-        <div class="stack-container" role="group" data-i18n-aria="stack.label">
-          <button class="stack-card is-front" type="button" data-index="0" style="--depth:0" aria-current="true">
-            <span class="layer-num">01</span>
-            <span class="stack-name" data-i18n="stack.l1.name">Database</span>
-            <span class="stack-text" data-i18n="stack.l1.text">PostgreSQL dan SQL untuk query relasional lintas tabel.</span>
-          </button>
-          <button class="stack-card" type="button" data-index="1" style="--depth:1">
-            <span class="layer-num">02</span>
-            <span class="stack-name" data-i18n="stack.l2.name">Transformasi</span>
-            <span class="stack-text" data-i18n="stack.l2.text">Power Query dan Pandas untuk pembersihan dan transformasi data.</span>
-          </button>
-          <button class="stack-card" type="button" data-index="2" style="--depth:2">
-            <span class="layer-num">03</span>
-            <span class="stack-name" data-i18n="stack.l3.name">Analisis</span>
-            <span class="stack-text" data-i18n="stack.l3.text">Power Pivot dan window function untuk agregasi dan perbandingan periode.</span>
-          </button>
-          <button class="stack-card" type="button" data-index="3" style="--depth:3">
-            <span class="layer-num">04</span>
-            <span class="stack-name" data-i18n="stack.l4.name">Insight</span>
-            <span class="stack-text" data-i18n="stack.l4.text">Dashboard dan ringkasan temuan untuk pengambilan keputusan.</span>
-          </button>
-        </div>
-        <p class="hint muted" data-i18n="stack.hint">Klik kartu untuk membawanya ke depan.</p>
-      </div>
+      <!-- Lapisan hero dibangun oleh script.js -->
+      <div id="hero-stack" class="iso-wrap hero-stack" role="group" data-i18n-aria="stack.label"></div>
     </div>
   </section>
 
@@ -114,12 +89,20 @@
     </div>
   </section>
 
-  <!-- Bagian proyek tersembunyi sampai ada data di script.js -->
+  <!-- Seksi proyek tersembunyi sampai ada data proyek; slide dan dot dibangun script.js -->
   <section id="projects" class="projects" hidden>
-    <div class="container">
+    <div class="container projects-head">
+      <p class="eyebrow" data-i18n="projects.label">Proyek pilihan</p>
       <h2 data-i18n="projects.title">Proyek</h2>
-      <div id="project-filters" class="filters" role="group" data-i18n-aria="projects.title"></div>
-      <div id="project-grid" class="grid"></div>
+      <div id="project-filters" class="filters" role="group" data-i18n-aria="projects.filterLabel"></div>
+    </div>
+
+    <!-- Tinggi #stack-scroll = jumlah proyek × tinggi area sticky (diatur via --count) -->
+    <div id="stack-scroll" class="stack-scroll">
+      <div class="stack-sticky">
+        <div id="stack-slides" class="stack-slides"></div>
+        <nav id="stack-dots" class="stack-nav" data-i18n-aria="projects.navLabel"></nav>
+      </div>
     </div>
   </section>
 
