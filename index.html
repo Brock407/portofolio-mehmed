@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mehmed Brockly Alexander — Data Analyst</title>
+  <meta name="description" content="Portofolio Brockly: otomasi data dari database sampai insight.">
+  <!-- Tema diterapkan sebelum render untuk mencegah kedipan -->
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch (e) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+<header class="site">
+  <div class="container nav-wrap">
+    <a href="#top" class="brand">Brockly</a>
+    <nav class="nav" aria-label="Navigasi utama">
+      <a href="#about" data-i18n="nav.about">Tentang</a>
+      <a href="#skills" data-i18n="nav.skills">Keahlian</a>
+      <a href="#projects" data-i18n="nav.projects">Proyek</a>
+      <a href="#contact" data-i18n="nav.contact">Kontak</a>
+    </nav>
+    <div class="controls">
+      <button id="lang-toggle" class="icon-btn" type="button">EN</button>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-label="Ganti tema">☾</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow" data-i18n="hero.eyebrow">Data Analyst / Data Specialist</p>
+        <h1 data-i18n="hero.name">Mehmed Brockly Alexander</h1>
+        <p class="tagline" data-i18n="hero.tagline">Otomasi data, dari database sampai insight.</p>
+        <div class="cta-row">
+          <a class="btn btn--primary" href="#skills" data-i18n="hero.ctaSkills">Lihat keahlian</a>
+          <a class="btn" href="#contact" data-i18n="hero.ctaContact">Hubungi saya</a>
+        </div>
+      </div>
+
+      <div class="stack" role="group" data-i18n-aria="stack.label">
+        <button class="layer" type="button" aria-expanded="false">
+          <span class="layer-head"><span class="layer-num">01</span><span data-i18n="stack.l1.name">Database</span></span>
+          <span class="layer-text" data-i18n="stack.l1.text">PostgreSQL dan SQL untuk query relasional lintas tabel.</span>
+        </button>
+        <button class="layer" type="button" aria-expanded="false">
+          <span class="layer-head"><span class="layer-num">02</span><span data-i18n="stack.l2.name">Transformasi</span></span>
+          <span class="layer-text" data-i18n="stack.l2.text">Power Query dan Pandas untuk pembersihan dan transformasi data.</span>
+        </button>
+        <button class="layer" type="button" aria-expanded="false">
+          <span class="layer-head"><span class="layer-num">03</span><span data-i18n="stack.l3.name">Analisis</span></span>
+          <span class="layer-text" data-i18n="stack.l3.text">Power Pivot dan window function untuk agregasi dan perbandingan periode.</span>
+        </button>
+        <button class="layer" type="button" aria-expanded="false">
+          <span class="layer-head"><span class="layer-num">04</span><span data-i18n="stack.l4.name">Insight</span></span>
+          <span class="layer-text" data-i18n="stack.l4.text">Dashboard dan ringkasan temuan untuk pengambilan keputusan.</span>
+        </button>
+        <p class="hint muted" data-i18n="stack.hint">Klik atau tekan Enter pada lapisan untuk melihat bukti.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="container narrow">
+      <h2 data-i18n="about.title">Tentang</h2>
+      <p class="lead" data-i18n="about.text">Saya Brockly, Data Analyst yang fokus pada otomasi alur data: dari query database, transformasi di Excel dan Python, sampai ringkasan temuan. Pengalaman operasional 4 tahun di WWRC mencakup otomasi data Excel.</p>
+    </div>
+  </section>
+
+  <section id="skills" class="skills">
+    <div class="container">
+      <h2 data-i18n="skills.title">Keahlian</h2>
+      <div class="grid">
+        <article class="card">
+          <h3 data-i18n="skills.s1.title">SQL &amp; Database Analysis</h3>
+          <p class="muted" data-i18n="skills.s1.text">Query PostgreSQL dengan JOIN kompleks, CTE, dan window function (ROW_NUMBER, LAG).</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="skills.s2.title">Excel Data Automation</h3>
+          <p class="muted" data-i18n="skills.s2.text">Otomasi data dengan Power Query dan Power Pivot.</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="skills.s3.title">Python Data Scripting</h3>
+          <p class="muted" data-i18n="skills.s3.text">Pandas dan NumPy untuk pengolahan data, scraping otomatis, dan notifikasi lewat Discord Webhook.</p>
+        </article>
+        <article class="card">
+          <h3 data-i18n="skills.s4.title">Data Pipeline &amp; Research</h3>
+          <p class="muted" data-i18n="skills.s4.text">Pipeline data on-chain dan riset protokol berbasis TVL.</p>
+        </article>
+      </div>
+      <div class="tools">
+        <h3 data-i18n="skills.tools.title">Tools</h3>
+        <p class="muted" data-i18n="skills.tools.text">VS Code Cline · OpenRouter · Cherry Studio</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bagian proyek tersembunyi sampai ada data di script.js -->
+  <section id="projects" class="projects" hidden>
+    <div class="container">
+      <h2 data-i18n="projects.title">Proyek</h2>
+      <div id="project-filters" class="filters" role="group" data-i18n-aria="projects.title"></div>
+      <div id="project-grid" class="grid"></div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="container narrow">
+      <h2 data-i18n="contact.title">Kontak</h2>
+      <p class="lead" data-i18n="contact.text">Terbuka untuk peran Data Analyst dan Data Specialist.</p>
+      <ul class="contact-list">
+        <li><span class="muted" data-i18n="contact.email">Email</span> <a href="mailto:ikyajhaa196@gmail.com">ikyajhaa196@gmail.com</a></li>
+        <li><span class="muted">LinkedIn</span> <a href="https://www.linkedin.com/in/brockly407" target="_blank" rel="noopener noreferrer">linkedin.com/in/brockly407</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="muted" data-i18n="footer.text">© 2026 Mehmed Brockly Alexander</p>
+  </div>
+</footer>
+
+</body>
+</html>

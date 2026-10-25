@@ -1,0 +1,331 @@
+/* ==========================================================
+   TOKEN TEMA
+   Rasio kontras (WCAG 2.1) dihitung dan ditulis di spesifikasi.
+   ========================================================== */
+:root {
+  --bg: #FAFAF9;
+  --surface: #FFFFFF;
+  --text: #111111;          /* ≈ 18:1 */
+  --muted: #6B6B6B;         /* ≈ 5,1:1 di atas --bg */
+  --border: #E5E5E5;        /* dekoratif saja */
+  --border-input: #767676;  /* ≈ 4,5:1, batas komponen interaktif */
+  --accent: #FF5722;        /* ≈ 3,2:1 di light, hanya elemen besar */
+  --accent-text: #C2410C;   /* ≈ 5,2:1, link dan teks kecil di light */
+  --on-accent: #111111;     /* ≈ 6,0:1 di atas --accent */
+  --radius: 12px;
+  --max: 1080px;
+  --ease: 0.3s ease;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0F0F0F;
+  --surface: #1A1A1A;
+  --text: #F5F5F5;
+  --muted: #A3A3A3;         /* ≈ 7,6:1 */
+  --border: #2A2A2A;
+  --border-input: #6B6B6B;  /* ≈ 3,6:1 */
+  --accent: #FF5722;        /* ≈ 6,1:1 */
+  --accent-text: #FF5722;
+  --on-accent: #0F0F0F;     /* ≈ 6,1:1 */
+  color-scheme: dark;
+}
+
+/* ==========================================================
+   BASE
+   ========================================================== */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  transition: background-color var(--ease), color var(--ease);
+}
+
+a { color: var(--accent-text); text-underline-offset: 3px; }
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+h1, h2, h3 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin: 0 0 16px;
+}
+h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); font-weight: 800; }
+h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+
+p { margin: 0 0 12px; }
+.muted { color: var(--muted); }
+.lead { font-size: 1.15rem; max-width: 640px; }
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.narrow { max-width: 760px; }
+
+section { padding: 96px 0; }
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+.site {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  transition: background-color var(--ease);
+}
+.nav-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 64px;
+}
+.brand {
+  font-weight: 800;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+}
+.nav { display: flex; gap: 20px; }
+.nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+.nav a:hover { color: var(--accent-text); }
+
+.controls { display: flex; gap: 8px; }
+.icon-btn {
+  min-width: 44px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--border-input);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color var(--ease);
+}
+
+/* ==========================================================
+   HERO + STACK LAYER
+   ========================================================== */
+.hero {
+  min-height: 86vh;
+  display: flex;
+  align-items: center;
+  padding: 64px 0;
+}
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 56px;
+  align-items: center;
+}
+.eyebrow {
+  color: var(--accent-text);
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.tagline {
+  font-size: 1.3rem;
+  color: var(--muted);
+  max-width: 480px;
+}
+.cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  border: 1px solid var(--border-input);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--ease), border-color var(--ease);
+}
+.btn:hover { transform: translateY(-2px); }
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.layer {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 18px 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+}
+/* Efek tumpukan: setiap lapisan bergeser sedikit ke kanan */
+.layer:nth-child(1) { margin-left: 0; }
+.layer:nth-child(2) { margin-left: 16px; }
+.layer:nth-child(3) { margin-left: 32px; }
+.layer:nth-child(4) { margin-left: 48px; }
+.layer:hover,
+.layer:focus-visible {
+  border-color: var(--accent);
+  transform: translateX(6px);
+}
+.layer-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.layer-num {
+  color: var(--accent-text);
+  font-weight: 800;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.layer-text {
+  display: none;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+.layer.is-open .layer-text { display: block; }
+@media (hover: hover) and (pointer: fine) {
+  .layer:hover .layer-text { display: block; }
+}
+.hint { margin-top: 8px; font-size: 0.9rem; }
+
+/* ==========================================================
+   KARTU, GRID, FILTER
+   ========================================================== */
+.skills, .projects { background: var(--surface); }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+.card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 26px;
+  transition: border-color var(--ease);
+}
+.card:hover { border-color: var(--border-input); }
+.card a { font-weight: 600; }
+
+.tools {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.chip {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border-input);
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--ease), color var(--ease);
+}
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+/* ==========================================================
+   KONTAK & FOOTER
+   ========================================================== */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0 0;
+  display: grid;
+  gap: 12px;
+}
+.contact-list li { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.site-footer {
+  padding: 32px 0;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+/* ==========================================================
+   RESPONSIVE
+   ========================================================== */
+@media (max-width: 860px) {
+  .hero { min-height: auto; padding: 48px 0 64px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  section { padding: 72px 0; }
+}
+
+@media (max-width: 640px) {
+  .nav { display: none; }
+  .container { padding: 0 20px; }
+  .layer:nth-child(n) { margin-left: 0; }
+  .layer:nth-child(2) { margin-left: 8px; }
+  .layer:nth-child(3) { margin-left: 16px; }
+  .layer:nth-child(4) { margin-left: 24px; }
+}
+
+/* ==========================================================
+   REDUCED MOTION
+   ========================================================== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
+  }
+  .layer:hover,
+  .layer:focus-visible,
+  .btn:hover { transform: none; }
+}
