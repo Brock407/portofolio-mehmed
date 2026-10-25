@@ -10,6 +10,7 @@
   --border: #E5E5E5;        /* dekoratif saja */
   --border-input: #767676;  /* ≈ 4,5:1, batas komponen interaktif */
   --accent: #FF5722;        /* ≈ 3,2:1 di light, hanya elemen besar */
+  --primary: var(--accent); /* alias --accent */
   --accent-text: #C2410C;   /* ≈ 5,2:1, link dan teks kecil di light */
   --on-accent: #111111;     /* ≈ 6,0:1 di atas --accent */
   --radius: 12px;
@@ -26,6 +27,7 @@
   --border: #2A2A2A;
   --border-input: #6B6B6B;  /* ≈ 3,6:1 */
   --accent: #FF5722;        /* ≈ 6,1:1 */
+  --primary: #FF5722;       /* alias --accent */
   --accent-text: #FF5722;
   --on-accent: #0F0F0F;     /* ≈ 6,1:1 */
   color-scheme: dark;
@@ -130,7 +132,7 @@ section { padding: 96px 0; }
 }
 
 /* ==========================================================
-   HERO + STACK LAYER
+   HERO
    ========================================================== */
 .hero {
   min-height: 86vh;
@@ -174,63 +176,91 @@ section { padding: 96px 0; }
 }
 .btn:hover { transform: translateY(-2px); }
 .btn--primary {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--primary);
+  border-color: var(--primary);
   color: var(--on-accent);
 }
 
-.stack {
+/* ==========================================================
+   STACK LAYER — absolute positioning + click-to-front
+   Posisi tiap kartu dihitung dari --depth (0 = paling depan).
+   ========================================================== */
+.stack-wrap {
+  width: 100%;
+  max-width: 440px;
+  justify-self: end;
+}
+
+.stack-container {
+  position: relative;
+  height: 250px;
+  --step: 12px;
+  --ease-stack: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.stack-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(100% - 3 * var(--step));
+  height: 210px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
-.layer {
-  display: block;
-  width: 100%;
-  text-align: left;
-  padding: 18px 20px;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 20px 22px;
   background: var(--surface);
+  color: var(--text);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  color: var(--text);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   font: inherit;
-  font-weight: 600;
+  text-align: left;
   cursor: pointer;
-  transition: transform var(--ease), border-color var(--ease), box-shadow var(--ease);
+  transform-origin: top left;
+  transform:
+    translate(calc(var(--depth) * var(--step)), calc(var(--depth) * var(--step)))
+    scale(calc(1 - var(--depth) * 0.04));
+  z-index: calc(4 - var(--depth));
+  transition:
+    transform 400ms var(--ease-stack),
+    border-color var(--ease),
+    box-shadow 400ms var(--ease-stack);
 }
-/* Efek tumpukan: setiap lapisan bergeser sedikit ke kanan */
-.layer:nth-child(1) { margin-left: 0; }
-.layer:nth-child(2) { margin-left: 16px; }
-.layer:nth-child(3) { margin-left: 32px; }
-.layer:nth-child(4) { margin-left: 48px; }
-.layer:hover,
-.layer:focus-visible {
+
+.stack-card.is-front {
   border-color: var(--accent);
-  transform: translateX(6px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
 }
-.layer-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+
+.stack-card:not(.is-front):hover {
+  border-color: var(--border-input);
 }
+
 .layer-num {
   color: var(--accent-text);
   font-weight: 800;
   font-size: 0.85rem;
   font-variant-numeric: tabular-nums;
 }
-.layer-text {
+
+.stack-name {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Teks penjelasan hanya tampil di kartu paling depan */
+.stack-text {
   display: none;
-  margin-top: 10px;
   color: var(--muted);
   font-size: 0.95rem;
   font-weight: 400;
+  line-height: 1.5;
 }
-.layer.is-open .layer-text { display: block; }
-@media (hover: hover) and (pointer: fine) {
-  .layer:hover .layer-text { display: block; }
-}
-.hint { margin-top: 8px; font-size: 0.9rem; }
+.stack-card.is-front .stack-text { display: block; }
+
+.hint { margin-top: 12px; font-size: 0.9rem; }
 
 /* ==========================================================
    KARTU, GRID, FILTER
@@ -275,8 +305,8 @@ section { padding: 96px 0; }
   transition: background-color var(--ease), color var(--ease);
 }
 .chip[aria-pressed="true"] {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--primary);
+  border-color: var(--primary);
   color: var(--on-accent);
 }
 
@@ -304,16 +334,15 @@ section { padding: 96px 0; }
 @media (max-width: 860px) {
   .hero { min-height: auto; padding: 48px 0 64px; }
   .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .stack-wrap { justify-self: start; max-width: 100%; }
   section { padding: 72px 0; }
 }
 
 @media (max-width: 640px) {
   .nav { display: none; }
   .container { padding: 0 20px; }
-  .layer:nth-child(n) { margin-left: 0; }
-  .layer:nth-child(2) { margin-left: 8px; }
-  .layer:nth-child(3) { margin-left: 16px; }
-  .layer:nth-child(4) { margin-left: 24px; }
+  .stack-container { height: 240px; --step: 8px; }
+  .stack-card { height: 210px; padding: 18px 18px; }
 }
 
 /* ==========================================================
@@ -325,7 +354,5 @@ section { padding: 96px 0; }
     animation: none !important;
     scroll-behavior: auto !important;
   }
-  .layer:hover,
-  .layer:focus-visible,
   .btn:hover { transform: none; }
 }
