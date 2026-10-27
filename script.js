@@ -13,6 +13,7 @@
       'nav.skills': 'Keahlian',
       'nav.projects': 'Proyek',
       'nav.contact': 'Kontak',
+      'ui.skip': 'Lewati ke konten utama',
       'ui.themeToLight': 'Beralih ke mode terang',
       'ui.themeToDark': 'Beralih ke mode gelap',
       'ui.langLabel': 'Ganti bahasa ke English',
@@ -62,6 +63,7 @@
       'nav.skills': 'Skills',
       'nav.projects': 'Projects',
       'nav.contact': 'Contact',
+      'ui.skip': 'Skip to main content',
       'ui.themeToLight': 'Switch to light mode',
       'ui.themeToDark': 'Switch to dark mode',
       'ui.langLabel': 'Switch language to Bahasa Indonesia',
@@ -180,12 +182,13 @@
     lang: 'id',
     filter: 'all',
     visible: [],   // proyek yang tampil setelah filter
-    active: 0      // indeks slide aktif
+    active: 0,     // indeks slide aktif
+    shown: false   // kartu proyek sedang di viewport
   };
 
   let isStatic = false;
   const reduceMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const staticMQ = window.matchMedia('(max-width: 860px), (prefers-reduced-motion: reduce)');
+  const staticMQ = window.matchMedia('(prefers-reduced-motion: reduce)'); // animasi aktif juga di mobile
 
   /* ---------- UTILITAS ---------- */
   const $ = (sel, root = document) => root.querySelector(sel);
@@ -344,6 +347,9 @@
       const wrap = el('div', 'iso-wrap');
       wrap.appendChild(buildIso(p.layers, false));
       visual.appendChild(wrap);
+      const chips = el('div', 'slide-chips');
+      p.layers.forEach(l => chips.appendChild(el('span', 'tech-chip', pick(l.sub))));
+      visual.appendChild(chips);
 
       slide.append(copy, visual);
       slidesEl.appendChild(slide);
@@ -365,11 +371,13 @@
     if (!n) return;
     const idx = clamp(index, 0, n - 1);
     state.active = idx;
+    $('#stack-slides').classList.toggle('is-shown', isStatic || state.shown);
 
     $$('#stack-slides .stack-slide').forEach((slide, k) => {
-      slide.classList.toggle('is-active', k === idx);
+      slide.classList.toggle('is-active', k === idx && (isStatic || state.shown));
     });
     $$('#stack-dots .stack-dot').forEach((dot, k) => {
+      dot.classList.toggle('is-done', k <= idx);
       if (k === idx) dot.setAttribute('aria-current', 'true');
       else dot.removeAttribute('aria-current');
     });
@@ -395,6 +403,9 @@
       ? clamp((window.scrollY - sectionTop()) / range, 0, 1)
       : 0;
 
+    const vh = window.innerHeight;
+    const y = window.scrollY - sectionTop();
+    state.shown = y > -vh * 0.55 && y < range + vh * 0.4;
     setActive(Math.round(progress * (count - 1)));
   }
 
@@ -417,6 +428,17 @@
     isStatic = staticMQ.matches;
     $('#projects').classList.toggle('is-static', isStatic);
     if (!isStatic) updateStack();
+  }
+
+  /* ---------- REVEAL SAAT SCROLL / SWIPE ---------- */
+  function initReveal() {
+    if (!('IntersectionObserver' in window) || reduceMQ.matches) return;
+    const items = $$('.hero-copy > *, #about .container > *, #skills h2, #skills .card, #skills .tools, #contact .container > *');
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    items.forEach(n => n.classList.add('reveal'));
+    requestAnimationFrame(() => requestAnimationFrame(() => items.forEach(n => io.observe(n))));
   }
 
   /* ---------- INISIALISASI ---------- */
@@ -449,6 +471,7 @@
       staticMQ.addListener(applyMode);
     }
 
+    initReveal();
     applyMode();
     state.lang = translations[savedLang] ? savedLang : 'id';
     renderHero();
