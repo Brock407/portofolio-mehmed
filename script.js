@@ -41,7 +41,7 @@
       'skills.s4.title': 'Data Pipeline & Research',
       'skills.s4.text': 'Pipeline data on-chain dan riset protokol berbasis TVL.',
       'skills.tools.title': 'Tools',
-      'skills.tools.text': 'VS Code Cline · OpenRouter · Cherry Studio',
+      'skills.tools.text': 'Excel · SQL · Python',
       'projects.label': 'Proyek pilihan',
       'projects.title': 'Proyek',
       'projects.filterLabel': 'Filter kategori',
