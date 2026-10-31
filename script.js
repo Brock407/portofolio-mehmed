@@ -91,7 +91,7 @@
       'skills.s4.title': 'Data Pipeline & Research',
       'skills.s4.text': 'On-chain data pipelines and TVL-based protocol research.',
       'skills.tools.title': 'Tools',
-      'skills.tools.text': 'VS Code Cline · OpenRouter · Cherry Studio',
+      'skills.tools.text': 'Excel · SQL · Python',
       'projects.label': 'Selected projects',
       'projects.title': 'Projects',
       'projects.filterLabel': 'Category filter',
